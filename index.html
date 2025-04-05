@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="light">
 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>La Liga del saber</title>
-  <link rel="icon" href="examen.png" title="Icono" type="image/png" />
+  <title>Preguntas preguntonas</title>
+    <link rel="icon" href="examen.png" title="Icono" type="image/png" />
   <style>
     /* General Styles */
     * {
@@ -15,9 +15,31 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
+    :root {
+      --bg-color: #f5f5f5;
+      --card-bg: white;
+      --text-color: #333;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --border-color: #e5e7eb;
+      --option-bg: #f3f4f6;
+      --option-hover: #e5e7eb;
+    }
+    
+    html.dark {
+      --bg-color: #1a1a1a;
+      --card-bg: #2a2a2a;
+      --text-color: #f5f5f5;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --border-color: #444;
+      --option-bg: #3a3a3a;
+      --option-hover: #444;
+    }
+    
     body {
-      background-color: #f5f5f5;
+      background-color: var(--bg-color);
       padding: 20px;
+      color: var(--text-color);
+      transition: background-color 0.3s, color 0.3s;
     }
     
     .container {
@@ -28,16 +50,41 @@
     h1 {
       text-align: center;
       margin-bottom: 30px;
-      color: #333;
+      color: var(--text-color);
+    }
+    
+    /* Dark Mode Toggle */
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 100;
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--card-shadow);
+    }
+    
+    .theme-toggle svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--text-color);
     }
     
     /* Card Styles */
     .card {
-      background-color: white;
+      background-color: var(--card-bg);
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--card-shadow);
       margin-bottom: 20px;
       overflow: hidden;
+      transition: background-color 0.3s;
     }
     
     .card-header {
@@ -69,9 +116,11 @@
     .form-group input {
       width: 100%;
       padding: 10px;
-      border: 1px solid #ddd;
+      border: 1px solid var(--border-color);
       border-radius: 4px;
       font-size: 1rem;
+      background-color: var(--card-bg);
+      color: var(--text-color);
     }
     
     /* Teams Display */
@@ -104,6 +153,16 @@
       color: #b91c1c;
     }
     
+    .team-3 .card-header {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    
+    .team-4 .card-header {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
     .team-score {
       font-size: 3rem;
       font-weight: bold;
@@ -130,7 +189,7 @@
     }
     
     .question-text {
-      background-color: #f3f4f6;
+      background-color: var(--option-bg);
       padding: 20px;
       border-radius: 6px;
       font-size: 1.2rem;
@@ -168,8 +227,8 @@
     
     .answer-option {
       padding: 15px;
-      background-color: #f3f4f6;
-      border: 1px solid #e5e7eb;
+      background-color: var(--option-bg);
+      border: 1px solid var(--border-color);
       border-radius: 6px;
       cursor: pointer;
       text-align: center;
@@ -178,7 +237,7 @@
     }
     
     .answer-option:hover {
-      background-color: #e5e7eb;
+      background-color: var(--option-hover);
     }
     
     .answer-option.selected {
@@ -293,7 +352,7 @@
       text-align: center;
       margin-bottom: 15px;
       font-weight: 500;
-      color: #4b5563;
+      color: var(--text-color);
     }
     
     /* Game Summary */
@@ -328,15 +387,27 @@
       color: #b91c1c;
     }
     
+    .winner-team-3 {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    
+    .winner-team-4 {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
     .winner-tie {
-      background-color: #f3f4f6;
-      color: #4b5563;
+      background-color: var(--option-bg);
+      color: var(--text-color);
     }
     
     .final-scores {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-around;
       margin-bottom: 30px;
+      gap: 15px;
     }
     
     .final-score {
@@ -352,6 +423,14 @@
     
     .final-score-team-2 {
       background-color: #fee2e2;
+    }
+    
+    .final-score-team-3 {
+      background-color: #d1fae5;
+    }
+    
+    .final-score-team-4 {
+      background-color: #fef3c7;
     }
     
     .final-score-name {
@@ -401,15 +480,25 @@
       color: #b91c1c;
     }
     
+    .team-3-header {
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+    
+    .team-4-header {
+      background-color: #fef3c7;
+      color: #92400e;
+    }
+    
     .history-list {
       list-style-type: none;
-      border: 1px solid #e5e7eb;
+      border: 1px solid var(--border-color);
       border-radius: 0 0 6px 6px;
     }
     
     .history-item {
       padding: 12px;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
     }
@@ -440,12 +529,68 @@
     }
     
     .history-no-answer {
-      background-color: #f3f4f6;
-      color: #4b5563;
+      background-color: var(--option-bg);
+      color: var(--text-color);
     }
     
     .restart-btn {
       margin-top: 30px;
+    }
+    
+    /* Question Management */
+    .question-management {
+      margin-top: 20px;
+    }
+    
+    .question-form {
+      margin-bottom: 20px;
+    }
+    
+    .question-list {
+      max-height: 300px;
+      overflow-y: auto;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      margin-top: 15px;
+    }
+    
+    .question-item {
+      padding: 10px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .question-item:last-child {
+      border-bottom: none;
+    }
+    
+    .question-text-preview {
+      flex: 1;
+      margin-right: 10px;
+    }
+    
+    .team-management {
+      margin-top: 20px;
+    }
+    
+    .team-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .team-item {
+      flex: 1;
+      min-width: 200px;
+      padding: 10px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     
     /* Responsive */
@@ -476,27 +621,97 @@
 </head>
 
 <body>
+  <div class="theme-toggle" id="theme-toggle">
+    <svg id="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: block;">
+      <path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z" />
+    </svg>
+    <svg id="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+      <path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm-8 5a8 8 0 1 1 16 0 8 8 0 0 1-16 0zm8-9a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V4a1 1 0 0 1 1-1zm0 16a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1zm9-9a1 1 0 0 1-1 1h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zM4 12a1 1 0 0 1-1 1H2a1 1 0 1 1 0-2h1a1 1 0 0 1 1 1zm14.95 6.36a1 1 0 0 1-1.41 0l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41zm-11.9-11.9a1 1 0 0 1-1.41 0l-.71-.71a1 1 0 0 1 1.41-1.41l.71.71a1 1 0 0 1 0 1.41zm11.9 0a1 1 0 0 1 0-1.41l.71-.71a1 1 0 0 1 1.41 1.41l-.71.71a1 1 0 0 1-1.41 0zm-11.9 11.9a1 1 0 0 1 0 1.41l-.71.71a1 1 0 0 1-1.41-1.41l.71-.71a1 1 0 0 1 1.41 0z" />
+    </svg>
+  </div>
+  
   <div class="container">
-    <h1>Quiz de Equipos</h1>
+    <h1>Preguntas preguntonas, acerca de....</h1>
     
     <!-- Team Setup Form -->
     <div id="setup-section" class="card">
-      <div class="card-header">Configuración de Equipos</div>
+      <div class="card-header">Configuración de los Equipos</div>
       <div class="card-content">
         <div class="setup-form">
-          <div class="form-group">
-            <label for="team1-name">Nombre del Equipo 1</label>
-            <input type="text" id="team1-name" value="Equipo 1">
+          <div id="teams-container">
+            <div class="form-group">
+              <label for="team1-name">Nombre del Equipo 1</label>
+              <input type="text" id="team1-name" value="Equipo 1">
+            </div>
+            <div class="form-group">
+              <label for="team2-name">Nombre del Equipo 2</label>
+              <input type="text" id="team2-name" value="Equipo 2">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="team2-name">Nombre del Equipo 2</label>
-            <input type="text" id="team2-name" value="Equipo 2">
+          
+          <div class="center-btn" style="margin-bottom: 20px;">
+            <button id="add-team" class="btn btn-outline">Agregar Equipo</button>
           </div>
+          
           <div class="form-group">
             <label for="timer-seconds">Tiempo para responder (segundos)</label>
             <input type="number" id="timer-seconds" value="30" min="5" max="120">
           </div>
+          
+          <button id="manage-questions-btn" class="btn btn-outline btn-block" style="margin-bottom: 10px;">Administrar Preguntas</button>
           <button id="confirm-teams" class="btn btn-primary btn-block">Confirmar Equipos</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Question Management (Hidden initially) -->
+    <div id="question-management" class="card" style="display: none;">
+      <div class="card-header">Administrar Preguntas</div>
+      <div class="card-content">
+        <div class="question-form">
+          <div class="form-group">
+            <label for="new-question">Nueva Pregunta</label>
+            <input type="text" id="new-question" placeholder="Escribe la pregunta">
+          </div>
+          
+          <div class="form-group">
+            <label>Opciones de Respuesta</label>
+            <div id="options-container">
+              <div class="form-group">
+                <input type="text" class="option-input" placeholder="Opción 1">
+              </div>
+              <div class="form-group">
+                <input type="text" class="option-input" placeholder="Opción 2">
+              </div>
+              <div class="form-group">
+                <input type="text" class="option-input" placeholder="Opción 3">
+              </div>
+              <div class="form-group">
+                <input type="text" class="option-input" placeholder="Opción 4">
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="correct-answer">Respuesta Correcta</label>
+            <select id="correct-answer">
+              <option value="0">Opción 1</option>
+              <option value="1">Opción 2</option>
+              <option value="2">Opción 3</option>
+              <option value="3">Opción 4</option>
+            </select>
+          </div>
+          
+          <button id="add-question" class="btn btn-primary btn-block">Agregar Pregunta</button>
+        </div>
+        
+        <div class="control-title">Preguntas Existentes</div>
+        <div id="question-list" class="question-list">
+          <!-- Questions will be added here dynamically -->
+        </div>
+        
+        <div class="center-btn" style="margin-top: 20px;">
+          <button id="back-to-setup" class="btn btn-outline">Volver a Configuración</button>
         </div>
       </div>
     </div>
@@ -504,24 +719,8 @@
     <!-- Game Section (Hidden initially) -->
     <div id="game-section" style="display: none;">
       <!-- Teams Display -->
-      <div class="teams-container">
-        <!-- Team 1 -->
-        <div id="team-1-card" class="team-card team-1 card">
-          <div class="card-header" id="team-1-header">Equipo 1</div>
-          <div class="card-content">
-            <div id="team-1-score" class="team-score">0</div>
-            <div id="team-1-status" class="team-status">Esperando inicio del juego</div>
-          </div>
-        </div>
-        
-        <!-- Team 2 -->
-        <div id="team-2-card" class="team-card team-2 card">
-          <div class="card-header" id="team-2-header">Equipo 2</div>
-          <div class="card-content">
-            <div id="team-2-score" class="team-score">0</div>
-            <div id="team-2-status" class="team-status">Esperando inicio del juego</div>
-          </div>
-        </div>
+      <div id="teams-display" class="teams-container">
+        <!-- Teams will be added here dynamically -->
       </div>
       
       <!-- Question and Controls -->
@@ -574,41 +773,15 @@
             </div>
             
             <!-- Final Scores -->
-            <div class="final-scores">
-              <div class="final-score final-score-team-1">
-                <div id="final-team-1-name" class="final-score-name">Equipo 1</div>
-                <div id="final-team-1-score" class="final-score-points">0</div>
-              </div>
-              
-              <div class="final-score final-score-team-2">
-                <div id="final-team-2-name" class="final-score-name">Equipo 2</div>
-                <div id="final-team-2-score" class="final-score-points">0</div>
-              </div>
+            <div id="final-scores" class="final-scores">
+              <!-- Will be filled dynamically -->
             </div>
             
             <!-- Answer History -->
             <div class="history-title">Historial de Respuestas</div>
             
-            <div class="history-container">
-              <!-- Team 1 History -->
-              <div class="team-history">
-                <div id="team-1-history-header" class="team-history-header team-1-header">
-                  Equipo 1
-                </div>
-                <ul id="team-1-history" class="history-list">
-                  <!-- Will be filled dynamically -->
-                </ul>
-              </div>
-              
-              <!-- Team 2 History -->
-              <div class="team-history">
-                <div id="team-2-history-header" class="team-history-header team-2-header">
-                  Equipo 2
-                </div>
-                <ul id="team-2-history" class="history-list">
-                  <!-- Will be filled dynamically -->
-                </ul>
-              </div>
+            <div id="history-container" class="history-container">
+              <!-- Will be filled dynamically -->
             </div>
             
             <!-- Restart Button -->
@@ -626,20 +799,23 @@
   <script>
     // Quiz State
     const state = {
-      team1: {
+      teams: [
+      {
+        id: 1,
         name: "Equipo 1",
         score: 0,
         hasAnswered: false,
         isAnswering: false,
         history: [] // Array to store answer history
       },
-      team2: {
+      {
+        id: 2,
         name: "Equipo 2",
         score: 0,
         hasAnswered: false,
         isAnswering: false,
         history: [] // Array to store answer history
-      },
+      }],
       gameStarted: false,
       currentQuestion: null,
       currentQuestionIndex: 0,
@@ -650,7 +826,7 @@
       timerInterval: null,
       timeRemaining: 30,
       waitingForTeamSelection: false,
-questions: [
+      questions: [
       {
         question: "¿Cuál es el símbolo químico del elemento Carbono?",
         options: ["C", "Ca", "Co", "Cu"],
@@ -701,27 +877,20 @@ questions: [
         options: ["Helio", "Mercurio", "Hafnio", "Hidrógeno"],
         correctAnswer: 1
       }],
-
       availableQuestions: [],
-      usedQuestions: [] // To keep track of questions that have been used
+      usedQuestions: [], // To keep track of questions that have been used
+      nextTeamId: 3 // For adding new teams
     };
     
     // DOM Elements
     const elements = {
       setupSection: document.getElementById('setup-section'),
       gameSection: document.getElementById('game-section'),
-      team1NameInput: document.getElementById('team1-name'),
-      team2NameInput: document.getElementById('team2-name'),
+      teamsContainer: document.getElementById('teams-container'),
       timerSecondsInput: document.getElementById('timer-seconds'),
       confirmTeamsBtn: document.getElementById('confirm-teams'),
-      team1Header: document.getElementById('team-1-header'),
-      team2Header: document.getElementById('team-2-header'),
-      team1Score: document.getElementById('team-1-score'),
-      team2Score: document.getElementById('team-2-score'),
-      team1Status: document.getElementById('team-1-status'),
-      team2Status: document.getElementById('team-2-status'),
-      team1Card: document.getElementById('team-1-card'),
-      team2Card: document.getElementById('team-2-card'),
+      addTeamBtn: document.getElementById('add-team'),
+      teamsDisplay: document.getElementById('teams-display'),
       startGameSection: document.getElementById('start-game-section'),
       startGameBtn: document.getElementById('start-game'),
       questionSection: document.getElementById('question-section'),
@@ -732,15 +901,19 @@ questions: [
       timer: document.getElementById('timer'),
       gameSummary: document.getElementById('game-summary'),
       winnerAnnouncement: document.getElementById('winner-announcement'),
-      finalTeam1Name: document.getElementById('final-team-1-name'),
-      finalTeam2Name: document.getElementById('final-team-2-name'),
-      finalTeam1Score: document.getElementById('final-team-1-score'),
-      finalTeam2Score: document.getElementById('final-team-2-score'),
-      team1HistoryHeader: document.getElementById('team-1-history-header'),
-      team2HistoryHeader: document.getElementById('team-2-history-header'),
-      team1History: document.getElementById('team-1-history'),
-      team2History: document.getElementById('team-2-history'),
-      restartGameBtn: document.getElementById('restart-game')
+      finalScores: document.getElementById('final-scores'),
+      historyContainer: document.getElementById('history-container'),
+      restartGameBtn: document.getElementById('restart-game'),
+      themeToggle: document.getElementById('theme-toggle'),
+      moonIcon: document.getElementById('moon-icon'),
+      sunIcon: document.getElementById('sun-icon'),
+      questionManagement: document.getElementById('question-management'),
+      manageQuestionsBtn: document.getElementById('manage-questions-btn'),
+      backToSetupBtn: document.getElementById('back-to-setup'),
+      newQuestionInput: document.getElementById('new-question'),
+      correctAnswerSelect: document.getElementById('correct-answer'),
+      addQuestionBtn: document.getElementById('add-question'),
+      questionList: document.getElementById('question-list')
     };
     
     // Initialize the game
@@ -750,28 +923,186 @@ questions: [
       state.usedQuestions = [];
       
       // Reset team histories
-      state.team1.history = [];
-      state.team2.history = [];
+      state.teams.forEach(team => {
+        team.history = [];
+        team.score = 0;
+        team.hasAnswered = false;
+        team.isAnswering = false;
+      });
       
       // Set up event listeners
       elements.confirmTeamsBtn.addEventListener('click', setupTeams);
       elements.startGameBtn.addEventListener('click', startGame);
-      elements.team1Card.addEventListener('click', () => selectTeamToAnswer(1));
-      elements.team2Card.addEventListener('click', () => selectTeamToAnswer(2));
       elements.nextQuestionBtn.addEventListener('click', nextQuestion);
       elements.restartGameBtn.addEventListener('click', restartGame);
+      elements.addTeamBtn.addEventListener('click', addTeamInput);
+      elements.themeToggle.addEventListener('click', toggleTheme);
+      elements.manageQuestionsBtn.addEventListener('click', showQuestionManagement);
+      elements.backToSetupBtn.addEventListener('click', hideQuestionManagement);
+      elements.addQuestionBtn.addEventListener('click', addQuestion);
+      
+      // Load questions into the question list
+      updateQuestionList();
+    }
+    
+    // Toggle dark/light theme
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        elements.moonIcon.style.display = 'block';
+        elements.sunIcon.style.display = 'none';
+      } else {
+        html.classList.add('dark');
+        elements.moonIcon.style.display = 'none';
+        elements.sunIcon.style.display = 'block';
+      }
+    }
+    
+    // Show question management section
+    function showQuestionManagement() {
+      elements.setupSection.style.display = 'none';
+      elements.questionManagement.style.display = 'block';
+    }
+    
+    // Hide question management section
+    function hideQuestionManagement() {
+      elements.questionManagement.style.display = 'none';
+      elements.setupSection.style.display = 'block';
+    }
+    
+    // Add a new question
+    function addQuestion() {
+      const questionText = elements.newQuestionInput.value.trim();
+      if (questionText === '') {
+        alert('Por favor ingresa una pregunta');
+        return;
+      }
+      
+      const optionInputs = document.querySelectorAll('.option-input');
+      const options = [];
+      
+      for (let i = 0; i < optionInputs.length; i++) {
+        const optionText = optionInputs[i].value.trim();
+        if (optionText === '') {
+          alert(`Por favor completa la opción ${i + 1}`);
+          return;
+        }
+        options.push(optionText);
+      }
+      
+      const correctAnswer = parseInt(elements.correctAnswerSelect.value);
+      
+      // Add the new question
+      state.questions.push({
+        question: questionText,
+        options: options,
+        correctAnswer: correctAnswer
+      });
+      
+      // Reset the form
+      elements.newQuestionInput.value = '';
+      optionInputs.forEach(input => {
+        input.value = '';
+      });
+      
+      // Update the question list
+      updateQuestionList();
+      
+      // Update available questions
+      state.availableQuestions = [...state.questions];
+    }
+    
+    // Update the question list in the UI
+    function updateQuestionList() {
+      elements.questionList.innerHTML = '';
+      
+      state.questions.forEach((question, index) => {
+        const questionItem = document.createElement('div');
+        questionItem.className = 'question-item';
+        
+        const questionText = document.createElement('div');
+        questionText.className = 'question-text-preview';
+        questionText.textContent = question.question;
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn btn-danger';
+        deleteBtn.textContent = 'Eliminar';
+        deleteBtn.addEventListener('click', () => deleteQuestion(index));
+        
+        questionItem.appendChild(questionText);
+        questionItem.appendChild(deleteBtn);
+        
+        elements.questionList.appendChild(questionItem);
+      });
+    }
+    
+    // Delete a question
+    function deleteQuestion(index) {
+      if (confirm('¿Estás seguro de que deseas eliminar esta pregunta?')) {
+        state.questions.splice(index, 1);
+        updateQuestionList();
+        
+        // Update available questions
+        state.availableQuestions = [...state.questions];
+      }
+    }
+    
+    // Add a new team input field
+    function addTeamInput() {
+      if (state.teams.length >= 4) {
+        alert('Máximo 4 equipos permitidos');
+        return;
+      }
+      
+      const teamId = state.nextTeamId;
+      
+      const formGroup = document.createElement('div');
+      formGroup.className = 'form-group';
+      
+      const label = document.createElement('label');
+      label.setAttribute('for', `team${teamId}-name`);
+      label.textContent = `Nombre del Equipo ${teamId}`;
+      
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.id = `team${teamId}-name`;
+      input.value = `Equipo ${teamId}`;
+      
+      formGroup.appendChild(label);
+      formGroup.appendChild(input);
+      
+      elements.teamsContainer.appendChild(formGroup);
+      
+      // Add team to state
+      state.teams.push({
+        id: teamId,
+        name: `Equipo ${teamId}`,
+        score: 0,
+        hasAnswered: false,
+        isAnswering: false,
+        history: []
+      });
+      
+      state.nextTeamId++;
     }
     
     // Set up team names and timer
     function setupTeams() {
-      const team1Name = elements.team1NameInput.value.trim();
-      const team2Name = elements.team2NameInput.value.trim();
-      const timerSeconds = parseInt(elements.timerSecondsInput.value);
-      
-      if (team1Name === "" || team2Name === "") {
-        alert("Por favor ingresa nombres para ambos equipos");
-        return;
+      // Get team names from inputs
+      for (let i = 0; i < state.teams.length; i++) {
+        const teamInput = document.getElementById(`team${state.teams[i].id}-name`);
+        if (teamInput) {
+          const teamName = teamInput.value.trim();
+          if (teamName === "") {
+            alert(`Por favor ingresa un nombre para el Equipo ${state.teams[i].id}`);
+            return;
+          }
+          state.teams[i].name = teamName;
+        }
       }
+      
+      const timerSeconds = parseInt(elements.timerSecondsInput.value);
       
       if (isNaN(timerSeconds) || timerSeconds < 5 || timerSeconds > 120) {
         alert("Por favor ingresa un tiempo válido entre 5 y 120 segundos");
@@ -779,25 +1110,58 @@ questions: [
       }
       
       // Update state
-      state.team1.name = team1Name;
-      state.team2.name = team2Name;
       state.timerSeconds = timerSeconds;
       state.timeRemaining = timerSeconds;
       
       // Reset scores
-      state.team1.score = 0;
-      state.team2.score = 0;
+      state.teams.forEach(team => {
+        team.score = 0;
+      });
       
-      // Update UI
-      elements.team1Header.textContent = team1Name;
-      elements.team2Header.textContent = team2Name;
-      elements.timer.textContent = timerSeconds;
-      elements.team1Score.textContent = "0";
-      elements.team2Score.textContent = "0";
+      // Create team cards
+      createTeamCards();
       
       // Show game section
       elements.setupSection.style.display = 'none';
       elements.gameSection.style.display = 'block';
+    }
+    
+    // Create team cards in the game section
+    function createTeamCards() {
+      elements.teamsDisplay.innerHTML = '';
+      
+      state.teams.forEach(team => {
+        const teamCard = document.createElement('div');
+        teamCard.id = `team-${team.id}-card`;
+        teamCard.className = `team-card team-${team.id} card`;
+        teamCard.addEventListener('click', () => selectTeamToAnswer(team.id));
+        
+        const cardHeader = document.createElement('div');
+        cardHeader.className = 'card-header';
+        cardHeader.id = `team-${team.id}-header`;
+        cardHeader.textContent = team.name;
+        
+        const cardContent = document.createElement('div');
+        cardContent.className = 'card-content';
+        
+        const teamScore = document.createElement('div');
+        teamScore.id = `team-${team.id}-score`;
+        teamScore.className = 'team-score';
+        teamScore.textContent = '0';
+        
+        const teamStatus = document.createElement('div');
+        teamStatus.id = `team-${team.id}-status`;
+        teamStatus.className = 'team-status';
+        teamStatus.textContent = 'Esperando inicio del juego';
+        
+        cardContent.appendChild(teamScore);
+        cardContent.appendChild(teamStatus);
+        
+        teamCard.appendChild(cardHeader);
+        teamCard.appendChild(cardContent);
+        
+        elements.teamsDisplay.appendChild(teamCard);
+      });
     }
     
     // Start the game
@@ -850,20 +1214,24 @@ questions: [
     // Reset the current round
     function resetRound() {
       // Reset state
-      state.team1.hasAnswered = false;
-      state.team1.isAnswering = false;
-      state.team2.hasAnswered = false;
-      state.team2.isAnswering = false;
+      state.teams.forEach(team => {
+        team.hasAnswered = false;
+        team.isAnswering = false;
+      });
+      
       state.selectedTeam = null;
       state.selectedAnswer = null;
       state.incorrectAnswers = [];
       state.waitingForTeamSelection = true;
       
       // Update UI
-      elements.team1Status.textContent = "";
-      elements.team2Status.textContent = "";
-      elements.team1Card.classList.remove('selected');
-      elements.team2Card.classList.remove('selected');
+      state.teams.forEach(team => {
+        const statusElement = document.getElementById(`team-${team.id}-status`);
+        const cardElement = document.getElementById(`team-${team.id}-card`);
+        
+        if (statusElement) statusElement.textContent = "";
+        if (cardElement) cardElement.classList.remove('selected');
+      });
       
       // Show instructions, hide answer options
       elements.gameInstructions.style.display = 'block';
@@ -887,44 +1255,41 @@ questions: [
     }
     
     // Select team to answer (when clicking on team card)
-    function selectTeamToAnswer(team) {
+    function selectTeamToAnswer(teamId) {
       // Only allow selection if waiting for team selection
       if (!state.waitingForTeamSelection) return;
       
-      // If team has already answered, don't  return;
+      // Find the team
+      const team = state.teams.find(t => t.id === teamId);
+      if (!team) return;
       
       // If team has already answered, don't allow selection
-      if ((team === 1 && state.team1.hasAnswered) ||
-        (team === 2 && state.team2.hasAnswered)) {
-        return;
-      }
+      if (team.hasAnswered) return;
       
-      state.selectedTeam = team;
+      state.selectedTeam = teamId;
       state.waitingForTeamSelection = false;
       
-      // Update UI
-      if (team === 1) {
-        state.team1.isAnswering = true;
-        elements.team1Card.classList.add('selected');
-        elements.team1Status.textContent = "Respondiendo...";
-        elements.team1Status.classList.add('answering');
+      // Update UI for all teams
+      state.teams.forEach(t => {
+        const statusElement = document.getElementById(`team-${t.id}-status`);
+        const cardElement = document.getElementById(`team-${t.id}-card`);
         
-        // Reset team 2 status if it was previously selected
-        elements.team2Card.classList.remove('selected');
-        elements.team2Status.classList.remove('answering');
-      } else {
-        state.team2.isAnswering = true;
-        elements.team2Card.classList.add('selected');
-        elements.team2Status.textContent = "Respondiendo...";
-        elements.team2Status.classList.add('answering');
-        
-        // Reset team 1 status if it was previously selected
-        elements.team1Card.classList.remove('selected');
-        elements.team1Status.classList.remove('answering');
-      }
+        if (t.id === teamId) {
+          t.isAnswering = true;
+          if (cardElement) cardElement.classList.add('selected');
+          if (statusElement) {
+            statusElement.textContent = "Respondiendo...";
+            statusElement.classList.add('answering');
+          }
+        } else {
+          t.isAnswering = false;
+          if (cardElement) cardElement.classList.remove('selected');
+          if (statusElement) statusElement.classList.remove('answering');
+        }
+      });
       
       // Show answer options
-      elements.gameInstructions.textContent = `${team === 1 ? state.team1.name : state.team2.name} está respondiendo`;
+      elements.gameInstructions.textContent = `${team.name} está respondiendo`;
       elements.answerOptions.style.display = 'grid';
       
       // Start timer
@@ -937,6 +1302,10 @@ questions: [
       
       state.selectedAnswer = index;
       
+      // Find the selected team
+      const team = state.teams.find(t => t.id === state.selectedTeam);
+      if (!team) return;
+      
       // Update UI
       const answerOptions = document.querySelectorAll('.answer-option');
       answerOptions.forEach(option => {
@@ -947,7 +1316,7 @@ questions: [
       if (index === state.currentQuestion.correctAnswer) {
         // Mark as correct (green)
         answerOptions[index].classList.add('correct');
-        handleCorrectAnswer();
+        handleCorrectAnswer(team);
       } else {
         // Mark only the selected answer as incorrect (red)
         answerOptions[index].classList.add('incorrect');
@@ -956,47 +1325,32 @@ questions: [
         state.incorrectAnswers.push(index);
         
         // Mark the team as having answered
-        if (state.selectedTeam === 1) {
-          state.team1.hasAnswered = true;
-          state.team1.isAnswering = false;
-        } else {
-          state.team2.hasAnswered = true;
-          state.team2.isAnswering = false;
-        }
+        team.hasAnswered = true;
+        team.isAnswering = false;
         
-        handleIncorrectAnswer();
+        handleIncorrectAnswer(team);
       }
     }
     
     // Handle correct answer
-    function handleCorrectAnswer() {
+    function handleCorrectAnswer(team) {
       // Stop timer
       stopTimer();
       
       // Award points
-      if (state.selectedTeam === 1) {
-        state.team1.score += 10;
-        elements.team1Score.textContent = state.team1.score;
-        elements.team1Status.textContent = "¡Respuesta correcta!";
-        
-        // Add to history
-        state.team1.history.push({
-          question: state.currentQuestion.question,
-          answer: state.currentQuestion.options[state.currentQuestion.correctAnswer],
-          correct: true
-        });
-      } else {
-        state.team2.score += 10;
-        elements.team2Score.textContent = state.team2.score;
-        elements.team2Status.textContent = "¡Respuesta correcta!";
-        
-        // Add to history
-        state.team2.history.push({
-          question: state.currentQuestion.question,
-          answer: state.currentQuestion.options[state.currentQuestion.correctAnswer],
-          correct: true
-        });
-      }
+      team.score += 10;
+      const scoreElement = document.getElementById(`team-${team.id}-score`);
+      const statusElement = document.getElementById(`team-${team.id}-status`);
+      
+      if (scoreElement) scoreElement.textContent = team.score;
+      if (statusElement) statusElement.textContent = "¡Respuesta correcta!";
+      
+      // Add to history
+      team.history.push({
+        question: state.currentQuestion.question,
+        answer: state.currentQuestion.options[state.currentQuestion.correctAnswer],
+        correct: true
+      });
       
       // Disable answer options
       const answerOptions = document.querySelectorAll('.answer-option');
@@ -1014,36 +1368,29 @@ questions: [
     }
     
     // Handle incorrect answer
-    function handleIncorrectAnswer() {
+    function handleIncorrectAnswer(team) {
       // Stop timer
       stopTimer();
       
       // Update UI for incorrect answer
-      if (state.selectedTeam === 1) {
-        elements.team1Status.textContent = "Respuesta incorrecta";
-        elements.team1Status.classList.remove('answering');
-        
-        // Add to history
-        state.team1.history.push({
-          question: state.currentQuestion.question,
-          answer: state.currentQuestion.options[state.selectedAnswer],
-          correct: false
-        });
-      } else {
-        elements.team2Status.textContent = "Respuesta incorrecta";
-        elements.team2Status.classList.remove('answering');
-        
-        // Add to history
-        state.team2.history.push({
-          question: state.currentQuestion.question,
-          answer: state.currentQuestion.options[state.selectedAnswer],
-          correct: false
-        });
+      const statusElement = document.getElementById(`team-${team.id}-status`);
+      if (statusElement) {
+        statusElement.textContent = "Respuesta incorrecta";
+        statusElement.classList.remove('answering');
       }
       
-      // Check if both teams have answered incorrectly
-      if (state.team1.hasAnswered && state.team2.hasAnswered) {
-        // Both teams have answered incorrectly, show the correct answer
+      // Add to history
+      team.history.push({
+        question: state.currentQuestion.question,
+        answer: state.currentQuestion.options[state.selectedAnswer],
+        correct: false
+      });
+      
+      // Check if all teams have answered incorrectly
+      const allTeamsAnswered = state.teams.every(t => t.hasAnswered);
+      
+      if (allTeamsAnswered) {
+        // All teams have answered incorrectly, show the correct answer
         const answerOptions = document.querySelectorAll('.answer-option');
         answerOptions[state.currentQuestion.correctAnswer].classList.add('correct');
         
@@ -1053,30 +1400,35 @@ questions: [
         });
         
         // Update instructions
-        elements.gameInstructions.textContent = "Ambos equipos respondieron incorrectamente";
+        elements.gameInstructions.textContent = "Todos los equipos respondieron incorrectamente";
         
         // Wait 2 seconds before moving to next question
         setTimeout(() => {
           selectRandomQuestion();
         }, 2000);
       } else {
-        // Give the opportunity to the other team
-        const otherTeam = state.selectedTeam === 1 ? 2 : 1;
+        // Give the opportunity to another team
+        // Find teams that haven't answered yet
+        const availableTeams = state.teams.filter(t => !t.hasAnswered);
         
-        // Update instructions
-        elements.gameInstructions.textContent = `Turno de ${otherTeam === 1 ? state.team1.name : state.team2.name}`;
-        
-        // Reset for other team selection
-        state.waitingForTeamSelection = true;
-        
-        // If the other team is the only one left, automatically select it
-        if ((otherTeam === 1 && !state.team1.hasAnswered) ||
-          (otherTeam === 2 && !state.team2.hasAnswered)) {
+        if (availableTeams.length === 1) {
+          // If only one team left, automatically select it
+          const nextTeam = availableTeams[0];
+          
+          // Update instructions
+          elements.gameInstructions.textContent = `Turno de ${nextTeam.name}`;
+          
+          // Reset for other team selection
+          state.waitingForTeamSelection = true;
           
           // Give a short pause before auto-selecting the other team
           setTimeout(() => {
-            selectTeamToAnswer(otherTeam);
+            selectTeamToAnswer(nextTeam.id);
           }, 1000);
+        } else {
+          // Multiple teams available, let user select
+          elements.gameInstructions.textContent = "Selecciona el siguiente equipo que levantó la mano";
+          state.waitingForTeamSelection = true;
         }
       }
     }
@@ -1118,64 +1470,63 @@ questions: [
     
     // Handle time up
     function handleTimeUp() {
-      // Consider it as an incorrect answer
-      if (state.selectedTeam === 1) {
-        elements.team1Status.textContent = "¡Tiempo agotado!";
-        elements.team1Status.classList.remove('answering');
-        state.team1.hasAnswered = true;
-        state.team1.isAnswering = false;
-        
-        // Add to history
-        state.team1.history.push({
-          question: state.currentQuestion.question,
-          answer: "Sin respuesta (tiempo agotado)",
-          correct: false
-        });
-      } else {
-        elements.team2Status.textContent = "¡Tiempo agotado!";
-        elements.team2Status.classList.remove('answering');
-        state.team2.hasAnswered = true;
-        state.team2.isAnswering = false;
-        
-        // Add to history
-        state.team2.history.push({
-          question: state.currentQuestion.question,
-          answer: "Sin respuesta (tiempo agotado)",
-          correct: false
-        });
+      // Find the selected team
+      const team = state.teams.find(t => t.id === state.selectedTeam);
+      if (!team) return;
+      
+      const statusElement = document.getElementById(`team-${team.id}-status`);
+      if (statusElement) {
+        statusElement.textContent = "¡Tiempo agotado!";
+        statusElement.classList.remove('answering');
       }
       
-      // Check if both teams have had a chance
-      if (state.team1.hasAnswered && state.team2.hasAnswered) {
+      team.hasAnswered = true;
+      team.isAnswering = false;
+      
+      // Add to history
+      team.history.push({
+        question: state.currentQuestion.question,
+        answer: "Sin respuesta (tiempo agotado)",
+        correct: false
+      });
+      
+      // Check if all teams have had a chance
+      const allTeamsAnswered = state.teams.every(t => t.hasAnswered);
+      
+      if (allTeamsAnswered) {
         // Show the correct answer
         const answerOptions = document.querySelectorAll('.answer-option');
         answerOptions[state.currentQuestion.correctAnswer].classList.add('correct');
         
         // Update instructions
-        elements.gameInstructions.textContent = "Ambos equipos se quedaron sin tiempo";
+        elements.gameInstructions.textContent = "Todos los equipos se quedaron sin tiempo";
         
         // Wait 2 seconds before moving to next question
         setTimeout(() => {
           selectRandomQuestion();
         }, 2000);
       } else {
-        // Give the opportunity to the other team
-        const otherTeam = state.selectedTeam === 1 ? 2 : 1;
+        // Find teams that haven't answered yet
+        const availableTeams = state.teams.filter(t => !t.hasAnswered);
         
-        // Update instructions
-        elements.gameInstructions.textContent = `Turno de ${otherTeam === 1 ? state.team1.name : state.team2.name}`;
-        
-        // Reset for other team selection
-        state.waitingForTeamSelection = true;
-        
-        // If the other team is the only one left, automatically select it
-        if ((otherTeam === 1 && !state.team1.hasAnswered) ||
-          (otherTeam === 2 && !state.team2.hasAnswered)) {
+        if (availableTeams.length === 1) {
+          // If only one team left, automatically select it
+          const nextTeam = availableTeams[0];
+          
+          // Update instructions
+          elements.gameInstructions.textContent = `Turno de ${nextTeam.name}`;
+          
+          // Reset for other team selection
+          state.waitingForTeamSelection = true;
           
           // Give a short pause before auto-selecting the other team
           setTimeout(() => {
-            selectTeamToAnswer(otherTeam);
+            selectTeamToAnswer(nextTeam.id);
           }, 1000);
+        } else {
+          // Multiple teams available, let user select
+          elements.gameInstructions.textContent = "Selecciona el siguiente equipo que levantó la mano";
+          state.waitingForTeamSelection = true;
         }
       }
     }
@@ -1185,21 +1536,15 @@ questions: [
       stopTimer();
       
       // Add to history for teams that didn't answer
-      if (!state.team1.hasAnswered && !state.team1.isAnswering) {
-        state.team1.history.push({
-          question: state.currentQuestion.question,
-          answer: "Sin respuesta",
-          correct: false
-        });
-      }
-      
-      if (!state.team2.hasAnswered && !state.team2.isAnswering) {
-        state.team2.history.push({
-          question: state.currentQuestion.question,
-          answer: "Sin respuesta",
-          correct: false
-        });
-      }
+      state.teams.forEach(team => {
+        if (!team.hasAnswered && !team.isAnswering) {
+          team.history.push({
+            question: state.currentQuestion.question,
+            answer: "Sin respuesta",
+            correct: false
+          });
+        }
+      });
       
       selectRandomQuestion();
     }
@@ -1212,26 +1557,30 @@ questions: [
       // Show summary section
       elements.gameSummary.style.display = 'block';
       
-      // Update team names
-      elements.finalTeam1Name.textContent = state.team1.name;
-      elements.finalTeam2Name.textContent = state.team2.name;
-      elements.team1HistoryHeader.textContent = state.team1.name;
-      elements.team2HistoryHeader.textContent = state.team2.name;
+      // Clear previous summary
+      elements.finalScores.innerHTML = '';
+      elements.historyContainer.innerHTML = '';
       
-      // Update final scores
-      elements.finalTeam1Score.textContent = state.team1.score;
-      elements.finalTeam2Score.textContent = state.team2.score;
+      // Find the winner
+      let maxScore = -1;
+      let winners = [];
       
-      // Determine winner
+      state.teams.forEach(team => {
+        if (team.score > maxScore) {
+          maxScore = team.score;
+          winners = [team];
+        } else if (team.score === maxScore) {
+          winners.push(team);
+        }
+      });
+      
+      // Determine winner message
       let winnerMessage = '';
       let winnerClass = '';
       
-      if (state.team1.score > state.team2.score) {
-        winnerMessage = `¡${state.team1.name} ha ganado!`;
-        winnerClass = 'winner-team-1';
-      } else if (state.team2.score > state.team1.score) {
-        winnerMessage = `¡${state.team2.name} ha ganado!`;
-        winnerClass = 'winner-team-2';
+      if (winners.length === 1) {
+        winnerMessage = `¡${winners[0].name} ha ganado!`;
+        winnerClass = `winner-team-${winners[0].id}`;
       } else {
         winnerMessage = '¡Empate!';
         winnerClass = 'winner-tie';
@@ -1240,70 +1589,95 @@ questions: [
       elements.winnerAnnouncement.textContent = winnerMessage;
       elements.winnerAnnouncement.className = `winner-announcement ${winnerClass}`;
       
+      // Create final scores
+      state.teams.forEach(team => {
+        const finalScore = document.createElement('div');
+        finalScore.className = `final-score final-score-team-${team.id}`;
+        
+        const finalScoreName = document.createElement('div');
+        finalScoreName.className = 'final-score-name';
+        finalScoreName.textContent = team.name;
+        
+        const finalScorePoints = document.createElement('div');
+        finalScorePoints.className = 'final-score-points';
+        finalScorePoints.textContent = team.score;
+        
+        finalScore.appendChild(finalScoreName);
+        finalScore.appendChild(finalScorePoints);
+        
+        elements.finalScores.appendChild(finalScore);
+      });
+      
       // Generate history lists
-      generateHistoryList(state.team1.history, elements.team1History);
-      generateHistoryList(state.team2.history, elements.team2History);
-    }
-    
-    // Generate history list
-    function generateHistoryList(history, listElement) {
-      // Clear list
-      listElement.innerHTML = '';
-      
-      // Check if history is empty
-      if (history.length === 0) {
-        const emptyItem = document.createElement('li');
-        emptyItem.className = 'history-item';
-        emptyItem.textContent = 'No hay respuestas registradas';
-        listElement.appendChild(emptyItem);
-        return;
-      }
-      
-      // Add each history item
-      history.forEach(item => {
-        const historyItem = document.createElement('li');
-        historyItem.className = 'history-item';
+      state.teams.forEach(team => {
+        const teamHistory = document.createElement('div');
+        teamHistory.className = 'team-history';
         
-        const questionSpan = document.createElement('span');
-        questionSpan.className = 'history-question';
-        questionSpan.textContent = item.question;
+        const historyHeader = document.createElement('div');
+        historyHeader.className = `team-history-header team-${team.id}-header`;
+        historyHeader.textContent = team.name;
         
-        const resultSpan = document.createElement('span');
-        if (item.correct) {
-          resultSpan.className = 'history-result history-correct';
-          resultSpan.textContent = '✓';
+        const historyList = document.createElement('ul');
+        historyList.className = 'history-list';
+        
+        // Generate history items
+        if (team.history.length === 0) {
+          const emptyItem = document.createElement('li');
+          emptyItem.className = 'history-item';
+          emptyItem.textContent = 'No hay respuestas registradas';
+          historyList.appendChild(emptyItem);
         } else {
-          resultSpan.className = 'history-result history-incorrect';
-          resultSpan.textContent = '✗';
+          team.history.forEach(item => {
+            const historyItem = document.createElement('li');
+            historyItem.className = 'history-item';
+            
+            const questionSpan = document.createElement('span');
+            questionSpan.className = 'history-question';
+            questionSpan.textContent = item.question;
+            
+            const resultSpan = document.createElement('span');
+            if (item.correct) {
+              resultSpan.className = 'history-result history-correct';
+              resultSpan.textContent = '✓';
+            } else {
+              resultSpan.className = 'history-result history-incorrect';
+              resultSpan.textContent = '✗';
+            }
+            
+            historyItem.appendChild(questionSpan);
+            historyItem.appendChild(resultSpan);
+            
+            // Add tooltip with the answer
+            historyItem.title = `Respuesta: ${item.answer}`;
+            
+            historyList.appendChild(historyItem);
+          });
         }
         
-        historyItem.appendChild(questionSpan);
-        historyItem.appendChild(resultSpan);
+        teamHistory.appendChild(historyHeader);
+        teamHistory.appendChild(historyList);
         
-        // Add tooltip with the answer
-        historyItem.title = `Respuesta: ${item.answer}`;
-        
-        listElement.appendChild(historyItem);
+        elements.historyContainer.appendChild(teamHistory);
       });
     }
     
     // Restart game
     function restartGame() {
       // Reset scores
-      state.team1.score = 0;
-      state.team2.score = 0;
-      
-      // Reset histories
-      state.team1.history = [];
-      state.team2.history = [];
+      state.teams.forEach(team => {
+        team.score = 0;
+        team.history = [];
+      });
       
       // Reset questions
       state.availableQuestions = [...state.questions];
       state.usedQuestions = [];
       
       // Update UI
-      elements.team1Score.textContent = "0";
-      elements.team2Score.textContent = "0";
+      state.teams.forEach(team => {
+        const scoreElement = document.getElementById(`team-${team.id}-score`);
+        if (scoreElement) scoreElement.textContent = "0";
+      });
       
       // Start game again
       startGame();
